@@ -1,0 +1,14 @@
+{
+  "dataset": "MoonCARE_S05_RAG_Unseen_Paraphrase_Set_v1",
+  "version": "1.0",
+  "status": "post_optimization_unseen_paraphrase_challenge_set",
+  "n_cases": 20,
+  "retrieval_mode": "KnowledgeAgent keyword fallback (embedding disabled)",
+  "top1_hit_rate": 0.75,
+  "top3_hit_rate": 0.85,
+  "mrr_at_3": 0.7916666666666666,
+  "retrieval_signal_coverage": 1.0,
+  "top1_error_count": 5,
+  "top3_miss_count": 3,
+  "boundary": "该集合是在第一轮优化完成后构造的20条新改写问题，用于做额外回归/挑战测试。它没有参与前述30条训练式调参，但由于是在优化后生成，不能声称为预先冻结、独立盲测或真实用户测试。"
+}

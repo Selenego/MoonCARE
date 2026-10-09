@@ -1,0 +1,130 @@
+{
+  "dataset_name": "MoonCARE_S05_RAG_Unseen_Paraphrase_Set_v1",
+  "version": "1.0",
+  "status": "post_optimization_unseen_paraphrase_challenge_set",
+  "source_type": "synthetic_test",
+  "evaluation_scope": "keyword_fallback_retrieval_without_external_llm_or_embedding_api",
+  "important_note": "该集合是在第一轮优化完成后构造的20条新改写问题，用于做额外回归/挑战测试。它没有参与前述30条训练式调参，但由于是在优化后生成，不能声称为预先冻结、独立盲测或真实用户测试。",
+  "cases": [
+    {
+      "id": "H05-001",
+      "query": "每次姨妈快来前脾气和情绪像坐过山车，这是激素在影响吗？",
+      "gold_id": "pms_005",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-002",
+      "query": "月经快来时乳房胀、腹胀、乏力这些算经前表现吗？",
+      "gold_id": "pms_003",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-003",
+      "query": "PMS本身会不会让受孕变得更困难？",
+      "gold_id": "pms_011",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-004",
+      "query": "月经周期的第1天到底按刚开始见红那天，还是结束那天算？",
+      "gold_id": "cycle_001",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-005",
+      "query": "经期一个小时就浸透卫生巾还发晕，这种情况要紧吗？",
+      "gold_id": "period_003",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-006",
+      "query": "经前还适合喝浓咖啡、吃很咸的东西或者喝酒吗？",
+      "gold_id": "lifestyle_002",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-007",
+      "query": "三个月都没来月经，而且之前周期也一直很乱，该怎么处理？",
+      "gold_id": "excel_4ea704f6a357",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-008",
+      "query": "妈妈和姐姐经前都很难受，我是不是也更容易有类似问题？",
+      "gold_id": "pms_006",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-009",
+      "query": "低落和焦虑总在月经前出现，怎么区分是PMS还是抑郁或甲状腺问题？",
+      "gold_id": "pms_008",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-010",
+      "query": "经前情绪很失控又有身体不适，我应该先挂妇科还是精神心理科？",
+      "gold_id": "pms_009",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-011",
+      "query": "痛经的时候用热水袋敷小腹、休息一下真的有帮助吗？",
+      "gold_id": "period_001",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-012",
+      "query": "经前突然冒出伤害自己的念头，这种情况应该怎么办？",
+      "gold_id": "mental_003",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-013",
+      "query": "月经前几天总睡不好，会不会把烦躁和焦虑放大？",
+      "gold_id": "mental_004",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-014",
+      "query": "姨妈前身体不舒服的时候还能做散步、慢跑或者瑜伽吗？",
+      "gold_id": "lifestyle_001",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-015",
+      "query": "为了看周期和情绪有没有规律，我每天应该记录哪些内容？",
+      "gold_id": "data_001",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-016",
+      "query": "只看手环记录的心率和体温，就能判断我是不是快出现PMS了吗？",
+      "gold_id": "data_002",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-017",
+      "query": "体检查出卵巢囊肿，是不是发现了就必须开刀？",
+      "gold_id": "excel_93b56ab2a0a8",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-018",
+      "query": "查出子宫肌瘤但现在没什么症状，也一定要做手术吗？",
+      "gold_id": "excel_a5d16956577e",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-019",
+      "query": "已经绝经一段时间后又突然见红，是不是应该尽快检查？",
+      "gold_id": "excel_89c58160ef19",
+      "source_type": "synthetic_unseen_paraphrase"
+    },
+    {
+      "id": "H05-020",
+      "query": "一咳嗽或者打喷嚏就会漏尿，这种情况能改善吗？",
+      "gold_id": "excel_5d1bb2763c54",
+      "source_type": "synthetic_unseen_paraphrase"
+    }
+  ]
+}
