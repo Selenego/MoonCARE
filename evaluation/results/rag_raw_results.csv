@@ -1,0 +1,31 @@
+﻿id,query,gold_id,gold_question,pred_top1_id,pred_top1_question,top1_score,top3_ids,top3_scores,top1_hit,top3_hit,reciprocal_rank,retrieval_has_signal,source_type
+S05-001,我来月经前情绪起伏特别大，主要是什么原因？,pms_005,为什么经前会情绪波动？是什么引起的？,excel_47db6d86f3f3,乳房疼痛是什么原因？,2.8,excel_47db6d86f3f3|pms_001|pms_003,2.800|2.000|2.000,False,False,0.0,True,synthetic_test
+S05-002,月经前老是烦躁还想哭，是不是生病了？,pms_001,我每次来月经前都特别烦躁、想哭，这是病吗？,pms_001,我每次来月经前都特别烦躁、想哭，这是病吗？,4.0,pms_001|pms_003|mental_001,4.000|2.000|2.000,True,True,1.0,True,synthetic_test
+S05-003,来姨妈前除了情绪不好还会有哪些身体表现？,pms_003,来月经前，除了心情差，身体还会有哪些不舒服？,pms_006,经前不适会遗传吗？,1.0,pms_006|cycle_002|mental_004,1.000|1.000|1.000,False,False,0.0,True,synthetic_test
+S05-004,PMS不舒服有什么办法缓解，需要用药吗？,pms_010,经前不适怎么缓解？需要吃药吗？,pms_010,经前不适怎么缓解？需要吃药吗？,2.0,pms_010|pms_001|pms_002,2.000|1.000|1.000,True,True,1.0,True,synthetic_test
+S05-005,我妈妈以前经前也不舒服，这种情况会遗传吗？,pms_006,经前不适会遗传吗？,pms_006,经前不适会遗传吗？,3.0,pms_006|pms_001|pms_002,3.000|1.000|1.000,True,True,1.0,True,synthetic_test
+S05-006,经前情绪问题怎么和抑郁焦虑或者甲状腺问题区分？,pms_008,经前不适和甲状腺问题、抑郁焦虑怎么区分？,pms_008,经前不适和甲状腺问题、抑郁焦虑怎么区分？,4.0,pms_008|mental_004|pms_006,4.000|3.000|2.000,True,True,1.0,True,synthetic_test
+S05-007,经期不舒服应该去妇科还是精神科？,pms_009,经前或经期问题应该挂什么科？,pms_009,经前或经期问题应该挂什么科？,2.0,pms_009|pms_011|cycle_001,2.000|1.000|1.000,True,True,1.0,True,synthetic_test
+S05-008,有PMS会不会影响以后怀孕？,pms_011,PMS会影响怀孕或生育能力吗？,pms_002,经前不适常见吗？是不是只有我这样？,2.0,pms_002|excel_7d91e5ce38c2|pms_001,2.000|2.000|1.000,False,False,0.0,True,synthetic_test
+S05-009,一个月经周期是从哪一天开始算的？,cycle_001,月经周期一般怎么计算？,pms_001,我每次来月经前都特别烦躁、想哭，这是病吗？,1.0,pms_001|pms_003|pms_013,1.000|1.000|1.000,False,False,0.0,True,synthetic_test
+S05-010,排卵后到月经来之前就是黄体期吗，它和经前期什么关系？,cycle_002,黄体期和经前期有什么关系？,cycle_002,黄体期和经前期有什么关系？,3.0,cycle_002|pms_001|pms_003,3.000|2.000|2.000,True,True,1.0,True,synthetic_test
+S05-011,月经推迟几天就一定是怀孕吗？,cycle_003,月经推迟是不是一定怀孕了？,cycle_003,月经推迟是不是一定怀孕了？,2.0,cycle_003|excel_0e985bdbf90f|excel_b683c4a65d55,2.000|2.000|2.000,True,True,1.0,True,synthetic_test
+S05-012,痛经的时候热敷和休息有用吗？,period_001,痛经时可以怎么照顾自己？,period_001,痛经时可以怎么照顾自己？,3.0,period_001|pms_011|excel_e2dc76249b93,3.000|1.000|1.000,True,True,1.0,True,synthetic_test
+S05-013,月经期间情绪特别低落想哭，这算正常吗？,period_002,经期情绪很低落正常吗？,period_002,经期情绪很低落正常吗？,3.0,period_002|pms_001|period_004,3.000|2.000|2.000,True,True,1.0,True,synthetic_test
+S05-014,经期出血特别多还头晕，什么时候需要去医院？,period_003,经期出血量多到什么程度需要注意？,period_004,经期为什么会头晕？,4.0,period_004|lifestyle_001|excel_9d482ef52bc9,4.000|2.000|2.000,False,False,0.0,True,synthetic_test
+S05-015,来月经时头晕心慌可能是什么原因？,period_004,经期为什么会头晕？,period_004,经期为什么会头晕？,4.0,period_004|period_003|excel_47db6d86f3f3,4.000|2.000|1.800,True,True,1.0,True,synthetic_test
+S05-016,经前焦虑烦躁时先做什么能缓下来？,mental_001,经前焦虑或烦躁时可以先做什么？,mental_001,经前焦虑或烦躁时可以先做什么？,3.0,mental_001|mental_004|pms_001,3.000|3.000|2.000,True,True,1.0,True,synthetic_test
+S05-017,为什么系统不能直接判断我是PMS还是PMDD？,mental_002,为什么 MoonCARE 不直接说我是不是 PMS 或 PMDD？,mental_002,为什么 MoonCARE 不直接说我是不是 PMS 或 PMDD？,2.8,mental_002|pms_005|pms_001,2.800|1.800|1.000,True,True,1.0,True,synthetic_test
+S05-018,经前出现轻生或者自残念头应该怎么办？,mental_003,如果经前出现轻生、自残或活不下去的想法怎么办？,mental_003,如果经前出现轻生、自残或活不下去的想法怎么办？,2.0,mental_003|pms_001|pms_002,2.000|1.000|1.000,True,True,1.0,True,synthetic_test
+S05-019,经前失眠会不会让第二天更烦躁焦虑？,mental_004,经前睡不好会让情绪更差吗？,mental_004,经前睡不好会让情绪更差吗？,4.0,mental_004|mental_001|pms_001,4.000|3.000|2.000,True,True,1.0,True,synthetic_test
+S05-020,PMS期间可以散步、瑜伽或者做运动吗？,lifestyle_001,经前可以运动吗？,lifestyle_001,经前可以运动吗？,3.0,lifestyle_001|pms_010|pms_001,3.000|2.000|1.000,True,True,1.0,True,synthetic_test
+S05-021,经前是不是要少喝咖啡、少吃盐和少喝酒？,lifestyle_002,经前饮食需要特别忌口吗？,pms_001,我每次来月经前都特别烦躁、想哭，这是病吗？,1.0,pms_001|pms_002|pms_003,1.000|1.000|1.000,False,False,0.0,True,synthetic_test
+S05-022,想记录自己的周期和情绪，应该记哪些内容？,data_001,我应该记录哪些经期和情绪信息？,data_001,我应该记录哪些经期和情绪信息？,3.0,data_001|pms_006|pms_013,3.000|1.000|1.000,True,True,1.0,True,synthetic_test
+S05-023,手环的心率和体温能不能直接判断PMS风险？,data_002,生理数据能直接判断情绪或 PMS 风险吗？,data_002,生理数据能直接判断情绪或 PMS 风险吗？,3.0,data_002|pms_001|pms_002,3.000|1.000|1.000,True,True,1.0,True,synthetic_test
+S05-024,查出卵巢囊肿一定要做手术吗？,excel_93b56ab2a0a8,卵巢囊肿严重吗？需要手术吗？,excel_93b56ab2a0a8,卵巢囊肿严重吗？需要手术吗？,1.0,excel_93b56ab2a0a8|excel_9f724474ec1a|pms_001,1.000|1.000|0.000,True,True,1.0,True,synthetic_test
+S05-025,子宫肌瘤是不是都必须手术？,excel_a5d16956577e,子宫肌瘤一定要手术吗？,excel_a5d16956577e,子宫肌瘤一定要手术吗？,1.0,excel_a5d16956577e|pms_001|pms_002,1.000|0.000|0.000,True,True,1.0,True,synthetic_test
+S05-026,月经好几个月没来而且一直不规律怎么办？,excel_4ea704f6a357,月经不规律，几个月不来怎么办？,pms_001,我每次来月经前都特别烦躁、想哭，这是病吗？,1.0,pms_001|pms_003|cycle_003,1.000|1.000|1.000,False,False,0.0,True,synthetic_test
+S05-027,HPV疫苗到底有没有必要打？,excel_fb3748579f3d,HPV疫苗有必要打吗？,excel_fb3748579f3d,HPV疫苗有必要打吗？,1.0,excel_fb3748579f3d|excel_2905a9b4e2f5|pms_001,1.000|1.000|0.000,True,True,1.0,True,synthetic_test
+S05-028,更年期潮热和睡不好特别难受，有什么办法？,excel_26e6d9abe2c2,更年期症状很痛苦怎么办？,excel_26e6d9abe2c2,更年期症状很痛苦怎么办？,1.0,excel_26e6d9abe2c2|pms_001|pms_002,1.000|0.000|0.000,True,True,1.0,True,synthetic_test
+S05-029,已经绝经了又突然出血，这正常吗？,excel_89c58160ef19,绝经后出血正常吗？,excel_89c58160ef19,绝经后出血正常吗？,2.0,excel_89c58160ef19|period_004|excel_9d482ef52bc9,2.000|1.000|1.000,True,True,1.0,True,synthetic_test
+S05-030,一咳嗽或者打喷嚏就漏尿，该怎么办？,excel_5d1bb2763c54,漏尿怎么办？,excel_5d1bb2763c54,漏尿怎么办？,1.0,excel_5d1bb2763c54|pms_001|pms_002,1.000|0.000|0.000,True,True,1.0,True,synthetic_test

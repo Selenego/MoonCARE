@@ -1,0 +1,195 @@
+{
+  "dataset_name": "MoonCARE_S05_RAG_Retrieval_Baseline_v1",
+  "version": "1.0",
+  "status": "synthetic_paraphrase_baseline",
+  "source_type": "synthetic_test",
+  "evaluation_scope": "keyword_fallback_retrieval_without_external_llm_or_embedding_api",
+  "notes": [
+    "30条问题均为围绕现有 knowledge_base.json 知识卡片构造的改写测试样例。",
+    "gold_id 指向期望命中的本地知识卡片 ID。",
+    "本实验只评测检索，不评测最终 LLM 生成答案质量，也不代表真实用户泛化性能。",
+    "脚本强制关闭向量检索，以保证在没有 API Key 的情况下可重复运行。"
+  ],
+  "cases": [
+    {
+      "id": "S05-001",
+      "query": "我来月经前情绪起伏特别大，主要是什么原因？",
+      "gold_id": "pms_005",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-002",
+      "query": "月经前老是烦躁还想哭，是不是生病了？",
+      "gold_id": "pms_001",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-003",
+      "query": "来姨妈前除了情绪不好还会有哪些身体表现？",
+      "gold_id": "pms_003",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-004",
+      "query": "PMS不舒服有什么办法缓解，需要用药吗？",
+      "gold_id": "pms_010",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-005",
+      "query": "我妈妈以前经前也不舒服，这种情况会遗传吗？",
+      "gold_id": "pms_006",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-006",
+      "query": "经前情绪问题怎么和抑郁焦虑或者甲状腺问题区分？",
+      "gold_id": "pms_008",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-007",
+      "query": "经期不舒服应该去妇科还是精神科？",
+      "gold_id": "pms_009",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-008",
+      "query": "有PMS会不会影响以后怀孕？",
+      "gold_id": "pms_011",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-009",
+      "query": "一个月经周期是从哪一天开始算的？",
+      "gold_id": "cycle_001",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-010",
+      "query": "排卵后到月经来之前就是黄体期吗，它和经前期什么关系？",
+      "gold_id": "cycle_002",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-011",
+      "query": "月经推迟几天就一定是怀孕吗？",
+      "gold_id": "cycle_003",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-012",
+      "query": "痛经的时候热敷和休息有用吗？",
+      "gold_id": "period_001",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-013",
+      "query": "月经期间情绪特别低落想哭，这算正常吗？",
+      "gold_id": "period_002",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-014",
+      "query": "经期出血特别多还头晕，什么时候需要去医院？",
+      "gold_id": "period_003",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-015",
+      "query": "来月经时头晕心慌可能是什么原因？",
+      "gold_id": "period_004",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-016",
+      "query": "经前焦虑烦躁时先做什么能缓下来？",
+      "gold_id": "mental_001",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-017",
+      "query": "为什么系统不能直接判断我是PMS还是PMDD？",
+      "gold_id": "mental_002",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-018",
+      "query": "经前出现轻生或者自残念头应该怎么办？",
+      "gold_id": "mental_003",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-019",
+      "query": "经前失眠会不会让第二天更烦躁焦虑？",
+      "gold_id": "mental_004",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-020",
+      "query": "PMS期间可以散步、瑜伽或者做运动吗？",
+      "gold_id": "lifestyle_001",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-021",
+      "query": "经前是不是要少喝咖啡、少吃盐和少喝酒？",
+      "gold_id": "lifestyle_002",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-022",
+      "query": "想记录自己的周期和情绪，应该记哪些内容？",
+      "gold_id": "data_001",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-023",
+      "query": "手环的心率和体温能不能直接判断PMS风险？",
+      "gold_id": "data_002",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-024",
+      "query": "查出卵巢囊肿一定要做手术吗？",
+      "gold_id": "excel_93b56ab2a0a8",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-025",
+      "query": "子宫肌瘤是不是都必须手术？",
+      "gold_id": "excel_a5d16956577e",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-026",
+      "query": "月经好几个月没来而且一直不规律怎么办？",
+      "gold_id": "excel_4ea704f6a357",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-027",
+      "query": "HPV疫苗到底有没有必要打？",
+      "gold_id": "excel_fb3748579f3d",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-028",
+      "query": "更年期潮热和睡不好特别难受，有什么办法？",
+      "gold_id": "excel_26e6d9abe2c2",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-029",
+      "query": "已经绝经了又突然出血，这正常吗？",
+      "gold_id": "excel_89c58160ef19",
+      "source_type": "synthetic_test"
+    },
+    {
+      "id": "S05-030",
+      "query": "一咳嗽或者打喷嚏就漏尿，该怎么办？",
+      "gold_id": "excel_5d1bb2763c54",
+      "source_type": "synthetic_test"
+    }
+  ]
+}
