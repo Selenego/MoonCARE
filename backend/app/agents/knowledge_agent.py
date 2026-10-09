@@ -79,25 +79,190 @@ class KnowledgeAgent:
 
         logger.info("[KnowledgeAgent] Attached %s valid knowledge embeddings", attached)
 
+    def _normalize_retrieval_text(self, text: str) -> str:
+        """Normalize common paraphrases before lightweight keyword retrieval."""
+        normalized = (text or "").lower()
+
+        replacements = (
+            ("来月经前", "经前"),
+            ("月经前", "经前"),
+            ("来姨妈前", "经前"),
+            ("姨妈前", "经前"),
+            ("月经期间", "经期"),
+            ("来月经时", "经期"),
+            ("情绪起伏", "情绪波动"),
+            ("情绪不好", "情绪波动"),
+            ("心情差", "情绪波动"),
+            ("少喝咖啡", "咖啡因"),
+            ("咖啡", "咖啡因"),
+            ("少吃盐", "高盐"),
+            ("少喝酒", "酒精"),
+            ("出血特别多", "月经过多"),
+            ("出血量特别多", "月经过多"),
+            ("量特别大", "月经过多"),
+            ("去医院", "就医"),
+            ("看医生", "就医"),
+            ("从哪一天开始算", "周期计算"),
+            ("开始算", "周期计算"),
+            ("怎么算", "周期计算"),
+            ("好几个月没来", "月经不规律"),
+            ("几个月没来", "月经不规律"),
+            ("一直不规律", "月经不规律"),
+            ("影响以后怀孕", "影响怀孕"),
+            ("妈妈", "家族遗传"),
+        )
+
+        for source, target in replacements:
+            normalized = normalized.replace(source, target)
+
+        return "".join(
+            ch for ch in normalized
+            if ch.isalnum() or "\u4e00" <= ch <= "\u9fff"
+        )
+
+    def _char_bigram_similarity(self, left: str, right: str) -> float:
+        """Return a small character-bigram Dice score for Chinese paraphrases."""
+        left_text = self._normalize_retrieval_text(left)
+        right_text = self._normalize_retrieval_text(right)
+
+        if not left_text or not right_text:
+            return 0.0
+
+        left_bigrams = (
+            {left_text[index:index + 2] for index in range(len(left_text) - 1)}
+            if len(left_text) >= 2
+            else {left_text}
+        )
+        right_bigrams = (
+            {right_text[index:index + 2] for index in range(len(right_text) - 1)}
+            if len(right_text) >= 2
+            else {right_text}
+        )
+
+        denominator = len(left_bigrams) + len(right_bigrams)
+        if denominator == 0:
+            return 0.0
+
+        return 2.0 * len(left_bigrams & right_bigrams) / denominator
+
+    def _keyword_weight(self, keyword: str) -> float:
+        """Weight specific health concepts above generic menstrual words."""
+        normalized = self._normalize_retrieval_text(keyword)
+        generic_keywords = {
+            "月经",
+            "经前",
+            "经期",
+            "pms",
+            "情绪",
+            "睡眠",
+            "生活",
+            "影响",
+            "医生",
+            "原因",
+            "为什么",
+            "不适",
+            "周期",
+        }
+
+        if normalized in generic_keywords:
+            return 0.45
+        if len(normalized) >= 4:
+            return 2.2
+        return 1.4
+
+    def _retrieval_intent_bonus(self, message: str, item: dict[str, Any]) -> float:
+        """Add explainable intent/theme bonuses without hard-coding card IDs."""
+        normalized_message = self._normalize_retrieval_text(message)
+        question = item.get("question", "")
+        normalized_question = self._normalize_retrieval_text(question)
+        normalized_keywords = {
+            self._normalize_retrieval_text(keyword)
+            for keyword in item.get("keywords", [])
+            if keyword
+        }
+
+        bonus = 0.0
+
+        # Causal questions should prefer causal cards, but only as a small tie-breaker.
+        if any(marker in message for marker in ("为什么", "什么原因", "是什么原因", "原因")):
+            if any(marker in question for marker in ("为什么", "原因", "引起")):
+                bonus += 0.8
+
+        # "从哪一天开始算" / "怎么计算" should prefer cycle-calculation cards.
+        if "周期计算" in normalized_message:
+            if (
+                "周期计算" in normalized_keywords
+                or "怎么计算" in question
+                or "出血第1天" in normalized_keywords
+            ):
+                bonus += 2.5
+
+        # Heavy-bleeding + care-seeking intent should not be swallowed by a secondary
+        # symptom such as dizziness.
+        if "月经过多" in normalized_message:
+            if any(
+                marker in normalized_keywords
+                for marker in ("月经过多", "出血量", "异常出血")
+            ):
+                bonus += 2.5
+
+        if "就医" in normalized_message:
+            if any(marker in normalized_keywords for marker in ("就医", "急诊", "医生")):
+                bonus += 1.2
+
+        # Lifestyle questions often contain several concrete concepts that should
+        # outweigh generic PMS / menstrual terms.
+        lifestyle_concepts = {"咖啡因", "高盐", "酒精"}
+        query_lifestyle = {
+            concept for concept in lifestyle_concepts
+            if concept in normalized_message
+        }
+        if query_lifestyle:
+            card_lifestyle = {
+                concept for concept in lifestyle_concepts
+                if concept in normalized_keywords or concept in normalized_question
+            }
+            bonus += 1.2 * len(query_lifestyle & card_lifestyle)
+
+        # Irregular / absent periods should prefer cards focused on irregular cycles.
+        if "月经不规律" in normalized_message:
+            if (
+                "月经不规律" in normalized_question
+                or "月经不规律" in normalized_keywords
+                or "多囊卵巢综合征" in normalized_keywords
+            ):
+                bonus += 2.0
+
+        # Pregnancy / fertility is a more specific user goal than generic PMS wording.
+        if "怀孕" in normalized_message:
+            if any(
+                marker in normalized_keywords
+                for marker in ("怀孕", "生育", "备孕")
+            ):
+                bonus += 1.5
+
+        return bonus
+
     def _keyword_match(self, message: str, top_k: int = 3) -> list[tuple[float, dict[str, Any]]]:
-        """Use keyword and title matching when vector search is unavailable."""
+        """Use weighted keywords, paraphrase similarity, and intent signals as fallback retrieval."""
         scored = []
-        message_lower = message.lower()
+        normalized_message = self._normalize_retrieval_text(message)
 
         for item in self.knowledge:
             score = 0.0
+
             for keyword in item.get("keywords", []):
-                if keyword.lower() in message_lower:
-                    score += 1.0
+                normalized_keyword = self._normalize_retrieval_text(keyword)
+                if normalized_keyword and normalized_keyword in normalized_message:
+                    score += self._keyword_weight(keyword)
 
-            question = item.get("question", "").lower()
-            if question and question in message_lower:
-                score += 2.0
+            # Chinese questions are often paraphrases rather than literal substring
+            # matches. Character-bigram Dice similarity gives a bounded soft signal
+            # without requiring an external embedding API.
+            question = item.get("question", "")
+            score += 5.0 * self._char_bigram_similarity(message, question)
 
-            for marker in ("为什么", "原因", "怎么回事"):
-                if marker in message and marker in item.get("question", ""):
-                    score += 0.8
-
+            score += self._retrieval_intent_bonus(message, item)
             scored.append((score, item))
 
         scored.sort(key=lambda result: result[0], reverse=True)

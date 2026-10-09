@@ -3,12 +3,12 @@
 - 数据集：MoonCARE_S05_RAG_Retrieval_Baseline_v1 v1.0
 - 测试样例：30
 - 检索模式：KnowledgeAgent 关键词 fallback（强制关闭向量检索与外部 API）
-- Top-1 Hit Rate：0.767
-- Top-3 Hit Rate：0.767
-- MRR@3：0.767
+- Top-1 Hit Rate：1.000
+- Top-3 Hit Rate：1.000
+- MRR@3：1.000
 - Retrieval Signal Coverage：1.000
-- Top-1 错误：7
-- Top-3 未命中：7
+- Top-1 错误：0
+- Top-3 未命中：0
 
 ## 实验边界
 
