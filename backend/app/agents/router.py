@@ -92,102 +92,87 @@ class Router:
     def _looks_like_knowledge_question(self, message: str) -> bool:
         """Return whether the turn primarily asks for PMS or menstrual-cycle explanation."""
         compact = "".join((message or "").split())
-        
-        # 疑问词库：扩展了缓解/改善相关的疑问表达
-        question_markers = (
-            "为什么", "什么是", "怎么回事", "原因", "会不会", "正常吗", "是不是", "如何", "怎么办",
-            "怎么缓解", "怎么改善", "有没有办法", "如何处理", "怎么办呢", "能缓解吗", "有什么办法",
-            "可以吗", "能吗", "能做吗", "可不可", "可以", "能"
+        if not compact:
+            return False
+
+        # 明确的即时行动请求优先交给 action_support，而不是被知识关键词抢占。
+        if self._looks_like_action_request(message):
+            return False
+
+        explanation_markers = (
+            "为什么", "什么是", "是什么", "怎么回事", "原因", "会不会", "正常吗", "是不是",
+            "有关系吗", "有关吗", "有关系么", "有关么", "和什么有关", "什么有关",
+            "区别", "差别", "原理", "机制",
         )
-        
-        # 健康/情绪主题词库：扩展了常见的情绪和身体症状词
+
         health_context_markers = (
-            "经前", "经期", "月经", "姨妈", "PMS", "pms", "PMDD", "pmdd", "激素", "周期",
+            "经前", "经期", "月经", "姨妈", "pms", "pmdd", "激素", "周期",
             "情绪", "烦躁", "失眠", "焦虑", "抑郁", "难过", "易怒", "头痛", "腹痛", "疲劳", "乳房", "水肿",
             "运动", "饮食", "睡眠", "休息", "胸痛", "腰酸", "腰痛", "想吐", "恶心", "头晕", "心慌",
             "心悸", "出汗", "潮热", "盗汗", "抽筋", "痉挛", "腹胀", "便秘", "腹泻", "尿频", "尿急",
             "乳房胀痛", "胸胀", "乳痛", "小腹", "肚子", "痛经", "量多", "量少", "推迟", "提前",
             "不来", "停经", "闭经", "淋漓", "血块", "发黑", "褐色", "鲜红", "暗红",
-            "脾气", "易怒", "暴躁", "想哭", "低落", "压抑", "紧张", "不安", "敏感", "多疑",
+            "脾气", "暴躁", "想哭", "低落", "压抑", "紧张", "不安", "敏感", "多疑",
             "记忆力", "注意力", "专注力", "困", "乏力", "没精神", "疲惫", "累", "嗜睡",
-            "想吃", "食欲", "暴食", "胃口", "体重", "发胖", "水肿", "浮肿"
+            "想吃", "食欲", "暴食", "胃口", "体重", "发胖", "浮肿",
         )
-        
-        # 生理/心理现象关键词（专门用于"为什么"模式识别）
-        phenomenon_markers = (
-            "情绪", "烦躁", "失眠", "焦虑", "抑郁", "难过", "易怒", "头痛", "腹痛", "疲劳", "乳房",
-            "胸痛", "腰酸", "腰痛", "想吐", "恶心", "头晕", "心慌", "心悸", "出汗", "潮热", "盗汗",
-            "抽筋", "痉挛", "腹胀", "便秘", "腹泻", "尿频", "尿急", "乳房胀痛", "胸胀", "乳痛",
-            "小腹", "肚子", "痛经", "脾气", "暴躁", "想哭", "低落", "压抑", "紧张", "不安", "敏感",
-            "多疑", "记忆力", "注意力", "专注力", "困", "乏力", "没精神", "疲惫", "累", "嗜睡",
-            "想吃", "食欲", "暴食", "胃口", "体重", "发胖", "水肿", "浮肿"
+
+        # “经期可以运动吗”这类适宜性问题需要知识解释；
+        # 但“可以陪我聊一会儿吗”不能因为“可以”被误判为 knowledge。
+        menstrual_or_body_markers = (
+            "经前", "经期", "月经", "姨妈", "pms", "pmdd", "激素", "周期",
+            "运动", "饮食", "睡眠", "腹痛", "痛经", "头痛", "头晕", "出血", "乳房", "水肿", "疲劳",
         )
-        
-        # 特定模式识别：识别"怎么缓解X"、"如何改善X"等常见求助模式
-        specific_patterns = ("怎么缓解", "如何改善", "有没有办法", "如何处理", "怎么办呢", "能缓解", "有什么办法")
-        has_specific_pattern = any(pattern in compact for pattern in specific_patterns)
-        
-        # 基础判断：疑问词 + 主题词/问号
-        has_question = any(marker in compact for marker in question_markers)
-        has_health_context = any(marker in compact for marker in health_context_markers)
-        has_question_mark = "？" in compact or "?" in compact
-        
-        # 特殊情况1："为什么"+生理/心理现象关键词组合（即使没有经期相关词，也应该识别为知识问题）
-        if "为什么" in compact and any(marker in compact for marker in phenomenon_markers):
+
+        lower_compact = compact.lower()
+        has_health_context = any(marker in lower_compact for marker in health_context_markers)
+        has_explanation_marker = any(marker in compact for marker in explanation_markers)
+
+        if has_explanation_marker and has_health_context:
             return True
-        
-        # 特殊情况2："正常吗"等模式识别，只要有健康上下文或长度较短就识别
-        normal_patterns = ("正常吗", "正常嘛", "正常么")
-        if any(pattern in compact for pattern in normal_patterns):
-            if has_health_context or len(compact) <= 10:
+
+        if ("pms" in lower_compact or "pmdd" in lower_compact) and any(
+            marker in compact for marker in ("是什么", "区别", "差别", "什么意思")
+        ):
+            return True
+
+        if any(marker in lower_compact for marker in menstrual_or_body_markers):
+            if (
+                ("可以" in compact or "能" in compact)
+                and (compact.endswith("吗") or "吗？" in compact or "吗?" in compact)
+            ):
                 return True
-        
-        # 特殊情况3："PMS是什么"应该识别为知识问题
-        if "是什么" in compact and ("PMS" in compact or "pmdd" in compact.lower()):
-            return True
-        
-        # 特殊情况4：单独的健康疑问（如"这正常吗"）
-        standalone_health_questions = ("正常吗", "可以吗", "能吗")
-        for q in standalone_health_questions:
-            if q in compact and len(compact) <= 8:
-                return True
-        
-        # 特殊情况5：健康主题词+疑问词组合（如"经期可以运动吗"）
-        if has_health_context and has_question:
-            return True
-        
-        # 组合逻辑：基础模式 或 特定求助模式（即使没有严格的疑问词+主题词组合）
-        basic_match = has_question and (has_health_context or has_question_mark)
-        
-        return basic_match or has_specific_pattern
+
+        return False
 
     def _looks_like_negative_feedback(self, message: str) -> bool:
-        """Return whether the message contains negative feedback about action suggestions."""
+        """Return whether the user is explicitly rejecting an action suggestion."""
         compact = "".join((message or "").split())
-        
-        # 情绪表达关键词：这些是情绪描述，不是对行动建议的拒绝
-        emotion_expression_markers = ("烦躁", "很烦", "烦恼", "心烦")
-        
-        # 检查是否只是情绪表达（而不是拒绝）
-        has_emotion_expression = any(marker in compact for marker in emotion_expression_markers)
-        if has_emotion_expression and len(compact) <= 6:  # 简短的情绪表达
+        if not compact:
             return False
-        
-        # 负反馈关键词：用户拒绝行动建议的常见表达
+
+        # 不使用裸子串“别”或“不行”，避免“别人/特别/区别”等误命中。
         negative_feedback_markers = (
-            "不想动", "不想做", "没时间", "没时间做", "做不到", "不行", "不要", "别",
-            "你好烦", "太烦了", "够了", "别说了", "停下", "不用了", "不必了"
+            "不想动", "不想做", "没时间做", "做不到",
+            "不要了", "不要这个", "不要建议", "不想听建议", "不想听这些",
+            "别推荐", "别给建议", "别说了", "先别说", "不用了", "不必了",
+            "够了", "停下", "别继续", "不想试", "不想练",
         )
-        
         return any(marker in compact for marker in negative_feedback_markers)
 
     def _looks_like_action_request(self, message: str) -> bool:
         """Return whether the user is explicitly asking for immediate next steps."""
         compact = "".join((message or "").split())
         markers = (
-            "我该怎么做", "该怎么做", "怎么办", "怎么做", "怎么处理",
+            "我该怎么做", "该怎么做", "我该怎么办", "该怎么办", "怎么办", "怎么做", "怎么处理",
             "接下来怎么做", "接下来怎么办", "现在怎么办", "现在怎么做",
-            "能做什么", "可以做什么", "帮我想办法", "给我点建议", "怎么面对", "怎么回复",
+            "能做什么", "可以做什么", "马上能做", "马上可以做",
+            "帮我想办法", "给我点建议", "给我几个步骤", "给我几个马上能做的步骤",
+            "下一步", "最小的下一步", "简单的下一步",
+            "照顾计划", "简单的照顾计划",
+            "怎么面对", "怎么回复", "怎么沟通", "怎么开口",
+            "怎么缓一缓", "先缓解", "怎么先缓解",
+            "要不要先休息", "想先稳下来", "先稳下来",
         )
         return any(marker in compact for marker in markers)
 
@@ -249,10 +234,11 @@ class Router:
             support_intent = "action_support" if self._looks_like_action_request(message) else "support"
             return self._run_support(message, state, support_intent=support_intent)
 
-        if self._looks_like_knowledge_question(message):
-            return self._run_knowledge(message, state)
-
+        # 自动模式下，明确的即时行动请求优先于知识解释。
         if self._looks_like_action_request(message):
             return self._run_support(message, state, support_intent="action_support")
+
+        if self._looks_like_knowledge_question(message):
+            return self._run_knowledge(message, state)
 
         return self._run_support(message, state, support_intent="support")

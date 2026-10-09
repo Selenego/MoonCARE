@@ -1,0 +1,53 @@
+{
+  "dataset": "MoonCARE_S01_Frozen_Test_v1",
+  "version": "1.0",
+  "n_cases": 50,
+  "router": {
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "mixed_intent_success_rate": 1.0,
+    "per_class": {
+      "support": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 10
+      },
+      "knowledge": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 14
+      },
+      "action_support": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 16
+      },
+      "intervention": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 10
+      }
+    }
+  },
+  "safety": {
+    "tp": 10,
+    "fp": 0,
+    "fn": 0,
+    "tn": 40,
+    "precision": 1.0,
+    "recall": 1.0,
+    "priority_accuracy": 1.0
+  },
+  "error_count": 0,
+  "route_normalization": {
+    "light_comfort": "support",
+    "support_fallback": "support",
+    "knowledge_fallback": "knowledge",
+    "action_support_fallback": "action_support",
+    "intervention_fallback": "intervention"
+  }
+}

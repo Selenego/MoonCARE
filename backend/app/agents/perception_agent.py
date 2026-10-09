@@ -19,7 +19,16 @@ class PerceptionAgent:
 
         support_context = self._extract_support_context(text, cycle_phase)
 
-        if contains_crisis_signal(text):
+        # 组合式危机信号：单个词“危险”或“控制不住”过宽，
+        # 但二者同时出现时应优先进入 Safety，避免高风险漏检。
+        danger_markers = ("危险", "不安全", "出事")
+        loss_of_control_markers = ("控制不住自己", "控制不住", "无法控制自己", "失控")
+        has_danger_loss_of_control = (
+            any(marker in text for marker in danger_markers)
+            and any(marker in text for marker in loss_of_control_markers)
+        )
+
+        if contains_crisis_signal(text) or has_danger_loss_of_control:
             risk_level = "crisis"
         elif any(keyword in text for keyword in high_keywords):
             risk_level = "high"
