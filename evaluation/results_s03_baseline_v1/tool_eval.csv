@@ -1,0 +1,15 @@
+﻿id,name,feature,expected_type,check_pass,counts_as_real_executable,agent_direct_tool_call,source_file,evidence,notes
+S03-001,经期记录 API,period_record,backend_api,True,True,False,backend/app/api/v1/menstrual.py,matched markers in backend/app/api/v1/menstrual.py,存在真实后端接口，但当前未证明聊天 Agent 会直接调用。
+S03-002,周期预测 API,period_predict,backend_api,True,True,False,backend/app/api/v1/menstrual.py,matched markers in backend/app/api/v1/menstrual.py,存在真实后端周期预测接口。
+S03-003,KnowledgeAgent 本地 RAG,rag,internal_rag,True,True,False,backend/app/agents/knowledge_agent.py,matched markers in backend/app/agents/knowledge_agent.py,属于 KnowledgeAgent 内部检索能力，不等同于统一 Tool Registry 中的 RAG Tool。
+S03-004,日记创建 API,diary,backend_api,True,True,False,backend/app/api/v1/diary.py,matched markers in backend/app/api/v1/diary.py,存在真实写库逻辑。
+S03-005,音乐推荐 API,music,backend_api,True,True,False,backend/app/api/v1/music.py,matched markers in backend/app/api/v1/music.py,存在真实推荐逻辑、候选排序与音乐数据来源。
+S03-006,报告生成 Service,report,service_function,True,True,False,backend/app/services/report_service.py,matched markers in backend/app/services/report_service.py,存在真实报告生成函数。
+S03-007,报告在 Interview 流程中调用,report,workflow_integrated,True,True,False,backend/app/api/v1/interview.py,matched markers in backend/app/api/v1/interview.py,报告能力已经接入 Interview 流程。
+S03-008,Awareness Memory Recall MCP Tool,memory,mcp_tool,True,True,True,backend/app/services/awareness_memory_provider.py,matched markers in backend/app/services/awareness_memory_provider.py,当前项目中最明确的标准 Tool Calling 证据之一。
+S03-009,Awareness Memory Record MCP Tool,memory,mcp_tool,True,True,True,backend/app/services/awareness_memory_provider.py,matched markers in backend/app/services/awareness_memory_provider.py,通过 JSON-RPC tools/call 执行。
+S03-010,呼吸练习 Action Suggestion,breathing,action_suggestion,True,False,False,backend/app/services/agent_service.py,matched markers in backend/app/services/agent_service.py,聊天链路给出前端跳转动作，不代表后端 Tool 被 Agent 执行。
+S03-011,日记 Action Suggestion,diary,action_suggestion,True,False,False,backend/app/services/agent_service.py,matched markers in backend/app/services/agent_service.py,日记本身有真实 API，但聊天 Agent 当前主要返回跳转建议。
+S03-012,音乐 Action Suggestion,music,action_suggestion,True,False,False,backend/app/services/agent_service.py,matched markers in backend/app/services/agent_service.py,音乐本身有真实推荐 API，但聊天 Agent 当前主要返回跳转建议。
+S03-013,统一 ToolExecutor / ToolRegistry,unified_tool_layer,gap_confirmed,True,False,False,,no unified ToolExecutor/ToolRegistry markers found,用于确认当前是否尚未形成统一 Tool 执行层。
+S03-014,独立 Breathing 后端 Tool/API,breathing,gap_confirmed,True,False,False,backend/app/api/v1/breathing.py,absent as expected: backend/app/api/v1/breathing.py,当前呼吸功能主要是页面/Action Suggestion，未发现独立后端 breathing API 文件。

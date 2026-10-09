@@ -1,0 +1,222 @@
+{
+  "dataset_name": "MoonCARE_S03_Tool_Capability_Baseline_v1",
+  "version": "1.0",
+  "source_type": "source_code_audit",
+  "scope_note": "用于验证 MoonCARE 当前代码中各能力是否真实存在，以及它们属于后端 API、Service、RAG、MCP Tool 还是仅 Action Suggestion。该数据集不是最终运行时 Tool Calling 正确率实验。",
+  "cases": [
+    {
+      "id": "S03-001",
+      "name": "经期记录 API",
+      "feature": "period_record",
+      "check_type": "file_markers",
+      "source_file": "backend/app/api/v1/menstrual.py",
+      "all_markers": [
+        "@router.post(\"/record\"",
+        "async def create_menstrual_record"
+      ],
+      "expected_type": "backend_api",
+      "counts_as_real_executable": true,
+      "agent_direct_tool_call": false,
+      "notes": "存在真实后端接口，但当前未证明聊天 Agent 会直接调用。"
+    },
+    {
+      "id": "S03-002",
+      "name": "周期预测 API",
+      "feature": "period_predict",
+      "check_type": "file_markers",
+      "source_file": "backend/app/api/v1/menstrual.py",
+      "all_markers": [
+        "@router.get(\"/predict\")",
+        "async def predict_next_period",
+        "CyclePredictor"
+      ],
+      "expected_type": "backend_api",
+      "counts_as_real_executable": true,
+      "agent_direct_tool_call": false,
+      "notes": "存在真实后端周期预测接口。"
+    },
+    {
+      "id": "S03-003",
+      "name": "KnowledgeAgent 本地 RAG",
+      "feature": "rag",
+      "check_type": "file_markers",
+      "source_file": "backend/app/agents/knowledge_agent.py",
+      "all_markers": [
+        "def _retrieve_top_k",
+        "def _keyword_match",
+        "def _build_rag_generation"
+      ],
+      "any_markers": [
+        "knowledge_base.json",
+        "knowledge_embeddings.json"
+      ],
+      "expected_type": "internal_rag",
+      "counts_as_real_executable": true,
+      "agent_direct_tool_call": false,
+      "notes": "属于 KnowledgeAgent 内部检索能力，不等同于统一 Tool Registry 中的 RAG Tool。"
+    },
+    {
+      "id": "S03-004",
+      "name": "日记创建 API",
+      "feature": "diary",
+      "check_type": "file_markers",
+      "source_file": "backend/app/api/v1/diary.py",
+      "all_markers": [
+        "async def create_mood_diary",
+        "db.add(mood_diary)"
+      ],
+      "expected_type": "backend_api",
+      "counts_as_real_executable": true,
+      "agent_direct_tool_call": false,
+      "notes": "存在真实写库逻辑。"
+    },
+    {
+      "id": "S03-005",
+      "name": "音乐推荐 API",
+      "feature": "music",
+      "check_type": "file_markers",
+      "source_file": "backend/app/api/v1/music.py",
+      "all_markers": [
+        "async def recommend_music",
+        "def _rank_candidates"
+      ],
+      "expected_type": "backend_api",
+      "counts_as_real_executable": true,
+      "agent_direct_tool_call": false,
+      "notes": "存在真实推荐逻辑、候选排序与音乐数据来源。"
+    },
+    {
+      "id": "S03-006",
+      "name": "报告生成 Service",
+      "feature": "report",
+      "check_type": "file_markers",
+      "source_file": "backend/app/services/report_service.py",
+      "all_markers": [
+        "class ReportService",
+        "def build_screening_report"
+      ],
+      "expected_type": "service_function",
+      "counts_as_real_executable": true,
+      "agent_direct_tool_call": false,
+      "notes": "存在真实报告生成函数。"
+    },
+    {
+      "id": "S03-007",
+      "name": "报告在 Interview 流程中调用",
+      "feature": "report",
+      "check_type": "file_markers",
+      "source_file": "backend/app/api/v1/interview.py",
+      "all_markers": [
+        "ReportService",
+        "build_screening_report"
+      ],
+      "expected_type": "workflow_integrated",
+      "counts_as_real_executable": true,
+      "agent_direct_tool_call": false,
+      "notes": "报告能力已经接入 Interview 流程。"
+    },
+    {
+      "id": "S03-008",
+      "name": "Awareness Memory Recall MCP Tool",
+      "feature": "memory",
+      "check_type": "file_markers",
+      "source_file": "backend/app/services/awareness_memory_provider.py",
+      "all_markers": [
+        "_call_tool(\"awareness_recall\"",
+        "\"method\": \"tools/call\""
+      ],
+      "expected_type": "mcp_tool",
+      "counts_as_real_executable": true,
+      "agent_direct_tool_call": true,
+      "notes": "当前项目中最明确的标准 Tool Calling 证据之一。"
+    },
+    {
+      "id": "S03-009",
+      "name": "Awareness Memory Record MCP Tool",
+      "feature": "memory",
+      "check_type": "file_markers",
+      "source_file": "backend/app/services/awareness_memory_provider.py",
+      "all_markers": [
+        "_call_tool(\"awareness_record\"",
+        "\"method\": \"tools/call\""
+      ],
+      "expected_type": "mcp_tool",
+      "counts_as_real_executable": true,
+      "agent_direct_tool_call": true,
+      "notes": "通过 JSON-RPC tools/call 执行。"
+    },
+    {
+      "id": "S03-010",
+      "name": "呼吸练习 Action Suggestion",
+      "feature": "breathing",
+      "check_type": "file_markers",
+      "source_file": "backend/app/services/agent_service.py",
+      "all_markers": [
+        "\"action\": \"breathing\"",
+        "\"route\": \"/breathing\""
+      ],
+      "expected_type": "action_suggestion",
+      "counts_as_real_executable": false,
+      "agent_direct_tool_call": false,
+      "notes": "聊天链路给出前端跳转动作，不代表后端 Tool 被 Agent 执行。"
+    },
+    {
+      "id": "S03-011",
+      "name": "日记 Action Suggestion",
+      "feature": "diary",
+      "check_type": "file_markers",
+      "source_file": "backend/app/services/agent_service.py",
+      "all_markers": [
+        "\"action\": \"diary\"",
+        "\"route\": \"/diary\""
+      ],
+      "expected_type": "action_suggestion",
+      "counts_as_real_executable": false,
+      "agent_direct_tool_call": false,
+      "notes": "日记本身有真实 API，但聊天 Agent 当前主要返回跳转建议。"
+    },
+    {
+      "id": "S03-012",
+      "name": "音乐 Action Suggestion",
+      "feature": "music",
+      "check_type": "file_markers",
+      "source_file": "backend/app/services/agent_service.py",
+      "all_markers": [
+        "\"action\": \"music\"",
+        "\"route\": \"/music\""
+      ],
+      "expected_type": "action_suggestion",
+      "counts_as_real_executable": false,
+      "agent_direct_tool_call": false,
+      "notes": "音乐本身有真实推荐 API，但聊天 Agent 当前主要返回跳转建议。"
+    },
+    {
+      "id": "S03-013",
+      "name": "统一 ToolExecutor / ToolRegistry",
+      "feature": "unified_tool_layer",
+      "check_type": "recursive_absence",
+      "search_root": "backend/app",
+      "patterns": [
+        "class ToolExecutor",
+        "class ToolRegistry",
+        "tool_registry =",
+        "tool_executor ="
+      ],
+      "expected_type": "gap_confirmed",
+      "counts_as_real_executable": false,
+      "agent_direct_tool_call": false,
+      "notes": "用于确认当前是否尚未形成统一 Tool 执行层。"
+    },
+    {
+      "id": "S03-014",
+      "name": "独立 Breathing 后端 Tool/API",
+      "feature": "breathing",
+      "check_type": "file_absence",
+      "source_file": "backend/app/api/v1/breathing.py",
+      "expected_type": "gap_confirmed",
+      "counts_as_real_executable": false,
+      "agent_direct_tool_call": false,
+      "notes": "当前呼吸功能主要是页面/Action Suggestion，未发现独立后端 breathing API 文件。"
+    }
+  ]
+}

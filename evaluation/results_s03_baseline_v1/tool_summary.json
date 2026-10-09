@@ -1,0 +1,22 @@
+{
+  "dataset": "MoonCARE_S03_Tool_Capability_Baseline_v1",
+  "version": "1.0",
+  "audit_scope": "source_code_static_audit",
+  "n_cases": 14,
+  "evidence_check_pass_count": 14,
+  "evidence_check_pass_rate": 1.0,
+  "real_executable_evidence_count": 9,
+  "action_suggestion_only_count": 3,
+  "agent_direct_tool_call_evidence_count": 2,
+  "confirmed_gap_count": 2,
+  "passed_by_type": {
+    "backend_api": 4,
+    "internal_rag": 1,
+    "service_function": 1,
+    "workflow_integrated": 1,
+    "mcp_tool": 2,
+    "action_suggestion": 3,
+    "gap_confirmed": 2
+  },
+  "important_boundary": "本结果验证的是源码中能力/接口/调用证据是否存在，不等同于真实运行时 Tool Calling 成功率。日记、音乐、周期等后端能力存在，但聊天 Agent 返回 Action Suggestion 不等于 Agent 已直接执行这些工具。"
+}
