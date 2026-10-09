@@ -5,6 +5,8 @@ Agent服务 - 委托给新的 Agent 系统
 import asyncio
 import time
 import traceback
+import json
+import uuid
 from typing import Any, Dict, List, Optional, AsyncGenerator
 from app.config import settings
 from app.utils.safety import SAFE_INTERVENTION_FALLBACK, contains_crisis_signal
@@ -45,6 +47,18 @@ class AgentService:
         self.compaction_service = None  # Lazy init for conversation compaction
         self.response_quality_guard = ResponseQualityGuard() if ResponseQualityGuard else None
 
+    def _trace_event(self, trace_id: str, event: str, **fields: Any) -> None:
+        """输出隐私安全的 Agent 结构化执行日志。"""
+        payload = {
+            "trace_id": trace_id,
+            "event": event,
+            **fields,
+        }
+        print(
+            f"[AgentTrace] {json.dumps(payload, ensure_ascii=False, default=str)}",
+            flush=True,
+        )
+        
     def _get_router(self):
         if self.router is None:
             self.router = Router()
@@ -1064,6 +1078,14 @@ class AgentService:
         """
         started_at = time.perf_counter()
         
+        trace_id = uuid.uuid4().hex[:12]
+        self._trace_event(
+            trace_id,
+            "request_start",
+            agent_mode=agent_mode,
+            message_length=len(user_message or ""),
+        )
+        
         try:
             cycle_phase = context.get("cycle_phase")
             sensor_data = context.get("sensor_data", {})
@@ -1082,7 +1104,25 @@ class AgentService:
 
             # 2. 检查安全边界，流式响应同样不能绕过安全感知层。
             risk_level = state.get("risk_level", "low")
+            self._trace_event(
+                trace_id,
+                "perception_complete",
+                risk_level=risk_level,
+            )
             if risk_level in ["high", "crisis"] or contains_crisis_signal(user_message):
+                route_reason = (
+                    "risk_level"
+                    if risk_level in ["high", "crisis"]
+                    else "crisis_signal"
+                )
+                self._trace_event(
+                    trace_id,
+                    "route_decision",
+                    route="intervention",
+                    reason=route_reason,
+                    cache_hit=False,
+                )
+
                 yield {
                     "type": "start",
                     "risk_level": risk_level,
@@ -1110,6 +1150,17 @@ class AgentService:
                     user_message,
                     cached_response["response"],
                     state,
+                )
+                self._trace_event(
+                    trace_id,
+                    "route_decision",
+                    route="cache",
+                    reason="semantic_cache_hit",
+                    cache_hit=True,
+                    cache_similarity=round(
+                        float(cached_response.get("similarity", 0.0)),
+                        4,
+                    ),
                 )
                 yield {
                     "type": "start",
@@ -1140,6 +1191,20 @@ class AgentService:
                 return
 
             if agent_mode == "knowledge" or self._looks_like_knowledge_question(user_message):
+                route_reason = (
+                    "forced_knowledge_mode"
+                    if agent_mode == "knowledge"
+                    else "knowledge_question"
+                )
+
+                self._trace_event(
+                    trace_id,
+                    "route_decision",
+                    route="knowledge",
+                    reason=route_reason,
+                    cache_hit=False,
+                )
+                
                 router = self._get_router()
                 async for chunk in self._stream_router_response(
                     router=router,
@@ -1155,6 +1220,17 @@ class AgentService:
             full_response = ""
             fast_ack_text = ""
             support_route_name = state.get("support_intent", "support")
+            self._trace_event(
+                trace_id,
+                "route_decision",
+                route=support_route_name,
+                reason=(
+                    "action_support_intent"
+                    if support_route_name == "action_support"
+                    else "default_support"
+                ),
+                cache_hit=False,
+            )
             if self.response_quality_guard:
                 fast_ack = ""
                 if support_route_name == "action_support":
@@ -1182,6 +1258,12 @@ class AgentService:
             try:
                 llm_service = self._get_llm_service()
             except Exception as exc:
+                self._trace_event(
+                    trace_id,
+                    "llm_unavailable",
+                    provider=getattr(settings, "LLM_PROVIDER", "unknown"),
+                    error_type=type(exc).__name__,
+                )
                 print(f"[AgentService] Streaming LLM unavailable, using soft fallback: {exc}")
                 fallback_reply = (
                     self._followup_after_fast_ack(user_message, state)
