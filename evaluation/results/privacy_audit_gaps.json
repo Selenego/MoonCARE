@@ -1,0 +1,18 @@
+[
+  {
+    "id": "S14-006",
+    "category": "deletion",
+    "title": "整账号数据删除入口",
+    "status": "gap",
+    "severity": "high",
+    "evidence": "未发现明确的整账号删除 API；当前只能确认局部数据删除能力"
+  },
+  {
+    "id": "S14-007",
+    "category": "deletion",
+    "title": "会话记录删除入口",
+    "status": "gap",
+    "severity": "medium",
+    "evidence": "未发现明确会话删除 API"
+  }
+]

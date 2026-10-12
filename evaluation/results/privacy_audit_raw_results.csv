@@ -1,0 +1,11 @@
+﻿id,category,title,status,severity,evidence
+S14-001,logging,AgentTrace 请求日志避免直接记录原始消息,pass,info,agent_service.py request_start uses message_length instead of raw user_message
+S14-002,logging,源码扫描未发现明显原始对话/日记正文日志,pass,info,No obvious logger/print call with user_message or original_text found
+S14-003,authorization,日记读取按 diary_id + user_id 做所有权过滤,pass,info,diary.py contains both MoodDiary.id == diary_id and MoodDiary.user_id == user_id
+S14-004,deletion,单条情绪日记删除包含用户所有权校验,pass,info,delete_mood_diary filters by diary_id + user_id before db.delete
+S14-005,deletion,User 模型存在级联关系配置,pass,info,"biometric_data = relationship(""BiometricData"", back_populates=""user"", cascade=""all, delete-orphan"") | menstrual_records = relationship(""MenstrualRecord"", back_populates=""user"", cascade=""all, delete-orphan"") | mood_diaries = relationship(""MoodDiary"", back_populates=""user"", cascade=""all, delete-orphan"") | diary_drafts = relationship(""DiaryDraft"", back_populates=""user"", cascade=""all, delete-orphan"") | conversations = relationship(""Conversation"", back_populates=""user"", cascade=""all, delete-orphan"") | chat_memories = relationship(""ChatMemory"", back_populates=""user"", cascade=""all, delete-orphan"")"
+S14-006,deletion,整账号数据删除入口,gap,high,未发现明确的整账号删除 API；当前只能确认局部数据删除能力
+S14-007,deletion,会话记录删除入口,gap,medium,未发现明确会话删除 API
+S14-008,secrets,.env 未被 Git 跟踪,pass,info,No tracked .env file
+S14-009,authorization,Diary/Draft API 广泛使用 user_id 所有权约束,pass,info,diary.py occurrences of 'user_id == user_id': 11
+S14-010,data_inventory,敏感数据类别可从模型层建立数据字典,pass,info,"{""biometric"": true, ""menstrual"": true, ""mood_diary"": true, ""conversation"": true, ""music_feedback"": true}"

@@ -1,0 +1,32 @@
+[
+  {
+    "stage": "group_reference",
+    "valid_history_count": 0,
+    "personal_weight": 0.0,
+    "blended_baseline": 0.0
+  },
+  {
+    "stage": "mixed_baseline",
+    "valid_history_count": 3,
+    "personal_weight": 0.2727,
+    "blended_baseline": 0.15
+  },
+  {
+    "stage": "mixed_baseline",
+    "valid_history_count": 8,
+    "personal_weight": 0.5,
+    "blended_baseline": 0.295
+  },
+  {
+    "stage": "personal_dominant",
+    "valid_history_count": 12,
+    "personal_weight": 0.6,
+    "blended_baseline": 0.357
+  },
+  {
+    "stage": "personal_dominant",
+    "valid_history_count": 21,
+    "personal_weight": 0.7241,
+    "blended_baseline": 0.4345
+  }
+]

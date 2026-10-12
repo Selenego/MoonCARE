@@ -37,7 +37,9 @@ class PerceptionAgent:
 
         return {
             "risk_level": risk_level,
-            "cycle_phase": cycle_phase or "经前期",
+            # Missing cycle context must stay unknown instead of being silently
+            # converted into a precise premenstrual-stage claim.
+            "cycle_phase": cycle_phase or "未知",
             "sensor_data": sensor_data,
             "emotion_summary": message,
             "support_context": support_context,

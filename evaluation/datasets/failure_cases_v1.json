@@ -1,0 +1,43 @@
+{
+  "dataset_name": "MoonCARE_S12_Failure_Recovery_v1",
+  "version": "1.0",
+  "source_type": "synthetic_fault_injection",
+  "boundary": "该实验验证软件层降级和失败恢复逻辑，不代表真实 BLE、数据库或生产网络故障恢复。",
+  "cases": [
+    {
+      "id": "S12-001",
+      "fault": "llm_timeout_support",
+      "description": "普通情绪支持场景下模拟模型超时，系统应返回非空降级回复。"
+    },
+    {
+      "id": "S12-002",
+      "fault": "llm_timeout_action_request",
+      "description": "明确求助场景下模拟模型超时，系统应返回可执行的本地降级建议。"
+    },
+    {
+      "id": "S12-003",
+      "fault": "llm_timeout_crisis",
+      "description": "危机场景下即使模型超时，也必须优先返回安全干预文案。"
+    },
+    {
+      "id": "S12-004",
+      "fault": "unexpected_error_knowledge",
+      "description": "知识问答链异常时，系统应给出保守知识降级回复而非崩溃。"
+    },
+    {
+      "id": "S12-005",
+      "fault": "rag_empty_result",
+      "description": "本地知识库无可用卡片时，KnowledgeAgent 应降级到谨慎回复。"
+    },
+    {
+      "id": "S12-006",
+      "fault": "missing_cycle_info",
+      "description": "缺失周期信息时不得伪造精确周期阶段，应明确为未知/缺失。"
+    },
+    {
+      "id": "S12-007",
+      "fault": "missing_sensor_data",
+      "description": "缺失传感器数据时 Perception 应继续工作且不崩溃。"
+    }
+  ]
+}

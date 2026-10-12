@@ -1,0 +1,154 @@
+{
+  "dataset_name": "MoonCARE_S07_Personal_Baseline_Migration_v1",
+  "version": "1.0",
+  "source_type": "synthetic_longitudinal_replay",
+  "group_reference": 0.0,
+  "unit": "normalized_engineering_score",
+  "boundary": "本数据为模拟纵向回放，只验证权重迁移、缺失值处理和异常值鲁棒性；不代表真实用户改善效果，不定义医学阈值。",
+  "observations": [
+    {
+      "day": 1,
+      "value": 0.55,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 2,
+      "value": 0.6,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 3,
+      "value": 0.5,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 4,
+      "value": 0.65,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 5,
+      "value": 0.58,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 6,
+      "value": null,
+      "expected_action": "missing_ignored",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 7,
+      "value": 0.62,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 8,
+      "value": 3.8,
+      "expected_action": "outlier_rejected",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 9,
+      "value": 0.57,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 10,
+      "value": 0.63,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 11,
+      "value": 0.59,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 12,
+      "value": 0.61,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 13,
+      "value": 0.56,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 14,
+      "value": -0.9,
+      "expected_action": "outlier_rejected",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 15,
+      "value": 0.64,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 16,
+      "value": 0.6,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 17,
+      "value": 0.58,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 18,
+      "value": 0.66,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 19,
+      "value": 0.55,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 20,
+      "value": 0.61,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 21,
+      "value": 0.57,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 22,
+      "value": 0.63,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 23,
+      "value": 0.59,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    },
+    {
+      "day": 24,
+      "value": 0.62,
+      "expected_action": "accepted",
+      "source": "synthetic_replay"
+    }
+  ]
+}

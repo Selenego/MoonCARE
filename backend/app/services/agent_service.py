@@ -48,13 +48,13 @@ class AgentService:
         self.response_quality_guard = ResponseQualityGuard() if ResponseQualityGuard else None
 
     def _trace_event(self, trace_id: str, event: str, **fields: Any) -> None:
-        """输出隐私安全的 Agent 结构化执行日志。"""
-        payload = {
+            """输出隐私安全的 Agent 结构化执行日志。"""
+            payload = {
             "trace_id": trace_id,
             "event": event,
             **fields,
         }
-        print(
+            print(
             f"[AgentTrace] {json.dumps(payload, ensure_ascii=False, default=str)}",
             flush=True,
         )
@@ -594,13 +594,16 @@ class AgentService:
         if risk_level in {"high", "crisis"} or contains_crisis_signal(user_message):
             return SAFE_INTERVENTION_FALLBACK
 
+        # Explicit action requests must keep actionability even when the model times out.
+        # Check them before generic deterministic comfort replies, otherwise a generic
+        # emotion acknowledgement may swallow the user's concrete "what should I do" intent.
+        if self._looks_like_action_request(user_message):
+            return self._action_request_degraded_reply(user_message, state or {})
+
         if self.response_quality_guard:
             direct_reply = self.response_quality_guard.direct_reply_if_applicable(user_message, state or {})
             if direct_reply:
                 return direct_reply
-
-        if self._looks_like_action_request(user_message):
-            return self._action_request_degraded_reply(user_message, state or {})
 
         agent_mode = (state or {}).get("agent_mode", "auto")
         if agent_mode == "knowledge" or self._looks_like_knowledge_question(user_message):
@@ -612,12 +615,13 @@ class AgentService:
         state = state or {}
         if state.get("risk_level") in {"high", "crisis"} or contains_crisis_signal(user_message):
             return SAFE_INTERVENTION_FALLBACK
+        # Preserve explicit action intent on unexpected failures as well.
+        if self._looks_like_action_request(user_message):
+            return self._action_request_degraded_reply(user_message, state)
         if self.response_quality_guard:
             direct_reply = self.response_quality_guard.direct_reply_if_applicable(user_message, state)
             if direct_reply:
                 return direct_reply
-        if self._looks_like_action_request(user_message):
-            return self._action_request_degraded_reply(user_message, state)
         agent_mode = state.get("agent_mode", "auto")
         if agent_mode == "knowledge" or self._looks_like_knowledge_question(user_message):
             return self._knowledge_degraded_reply(user_message)
@@ -1110,31 +1114,31 @@ class AgentService:
                 risk_level=risk_level,
             )
             if risk_level in ["high", "crisis"] or contains_crisis_signal(user_message):
-                route_reason = (
+                                route_reason = (
                     "risk_level"
                     if risk_level in ["high", "crisis"]
                     else "crisis_signal"
                 )
-                self._trace_event(
+            self._trace_event(
                     trace_id,
                     "route_decision",
                     route="intervention",
                     reason=route_reason,
                     cache_hit=False,
                 )
-
-                yield {
+            
+            yield {
                     "type": "start",
                     "risk_level": risk_level,
                     "agent_name": "intervention",
                 }
-                yield {
+            yield {
                     "type": "token",
                     "token": SAFE_INTERVENTION_FALLBACK,
                     "is_final": True,
                     "first_token_latency_ms": int((time.perf_counter() - started_at) * 1000),
                 }
-                yield {
+            yield {
                     "type": "end",
                     "actions": self._generate_action_suggestions(state),
                     "elapsed_ms": int((time.perf_counter() - started_at) * 1000),
@@ -1142,7 +1146,7 @@ class AgentService:
                     "cache_hit": False,
                     "cache_similarity": 0.0,
                 }
-                return
+            return
 
             cached_response = self._get_cached_response(user_message, state)
             if cached_response:

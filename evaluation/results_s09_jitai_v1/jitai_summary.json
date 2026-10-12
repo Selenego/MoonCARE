@@ -1,0 +1,26 @@
+{
+  "dataset": "MoonCARE_JITAI_scenarios_v1",
+  "version": "1.0",
+  "n_scenarios": 30,
+  "decision_accuracy": 1.0,
+  "rule_coverage": 1.0,
+  "covered_stages": [
+    "availability",
+    "burden",
+    "need",
+    "preference",
+    "safety"
+  ],
+  "no_intervention_case_count": 11,
+  "no_intervention_accuracy": 1.0,
+  "frequency_control_violation_count": 0,
+  "safety_priority_error_count": 0,
+  "stage_counts": {
+    "safety": 4,
+    "need": 5,
+    "preference": 15,
+    "availability": 3,
+    "burden": 3
+  },
+  "boundary": "本数据集是规则单元测试情景矩阵，用于验证显式 JITAI 规则的一致性与覆盖率。它不是临床效果实验，也不代表真实用户干预效果。"
+}

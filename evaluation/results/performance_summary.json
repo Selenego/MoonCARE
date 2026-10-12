@@ -1,0 +1,70 @@
+{
+  "dataset": "MoonCARE_S13_Local_Performance_v1",
+  "version": "1.0",
+  "scope": "离线本地软件链路性能基线，不包含真实外部LLM、网络、数据库、BLE与生产环境。",
+  "runs_per_case": 50,
+  "total_serial_runs": 200,
+  "serial_success_rate": 1.0,
+  "serial_error_count": 0,
+  "stage_latency": {
+    "perception_ms": {
+      "mean_ms": 0.028,
+      "p50_ms": 0.022,
+      "p95_ms": 0.055,
+      "max_ms": 0.095
+    },
+    "route_ms": {
+      "mean_ms": 0.985,
+      "p50_ms": 0.017,
+      "p95_ms": 4.801,
+      "max_ms": 5.706
+    },
+    "action_ms": {
+      "mean_ms": 0.012,
+      "p50_ms": 0.013,
+      "p95_ms": 0.032,
+      "max_ms": 0.111
+    },
+    "total_ms": {
+      "mean_ms": 1.025,
+      "p50_ms": 0.059,
+      "p95_ms": 4.852,
+      "max_ms": 5.771
+    }
+  },
+  "concurrency": [
+    {
+      "workers": 1,
+      "tasks": 100,
+      "success": 100,
+      "failed": 0,
+      "error_rate": 0.0,
+      "wall_time_s": 0.239,
+      "throughput_tasks_per_s": 418.06,
+      "p50_task_ms": 0.098,
+      "p95_task_ms": 3.802
+    },
+    {
+      "workers": 5,
+      "tasks": 100,
+      "success": 100,
+      "failed": 0,
+      "error_rate": 0.0,
+      "wall_time_s": 0.198,
+      "throughput_tasks_per_s": 504.81,
+      "p50_task_ms": 0.113,
+      "p95_task_ms": 4.829
+    },
+    {
+      "workers": 10,
+      "tasks": 100,
+      "success": 100,
+      "failed": 0,
+      "error_rate": 0.0,
+      "wall_time_s": 0.205,
+      "throughput_tasks_per_s": 487.81,
+      "p50_task_ms": 0.108,
+      "p95_task_ms": 4.464
+    }
+  ]
+}

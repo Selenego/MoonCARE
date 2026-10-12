@@ -1,0 +1,8 @@
+﻿id,fault,description,detected,recovered,fake_success,elapsed_ms,detail,output_preview
+S12-001,llm_timeout_support,普通情绪支持场景下模拟模型超时，系统应返回非空降级回复。,True,True,False,0.089,used AgentService._timeout_fallback,我在，也听到你现在低落。心里像蒙了一层灰，有点透不过气。如果你想多说一点，我就听着；不想说的话，我们就这么安静待一会儿。
+S12-002,llm_timeout_action_request,明确求助场景下模拟模型超时，系统应返回可执行的本地降级建议。,True,True,False,0.028,used action-request degraded reply,先把刺激源放远一点，比如放下手机、离开当前场景两三分钟。然后写下此刻最卡住你的那一句，不用写完整。接着只选一个小动作做：喝水、洗把脸、听一首歌，等身体稍微稳一点再处理事情。
+S12-003,llm_timeout_crisis,危机场景下即使模型超时，也必须优先返回安全干预文案。,True,True,False,0.002,safety fallback must override normal fallback,我很担心你现在的安全。请先尽量待在有人陪伴、远离危险物品的地方，马上联系一个可信任的人陪你，或拨打当地紧急电话/心理危机热线。你不用一个人扛着。
+S12-004,unexpected_error_knowledge,知识问答链异常时，系统应给出保守知识降级回复而非崩溃。,True,True,False,0.022,used AgentService._soft_error_fallback,经前或经期情绪起伏可能和激素波动、睡眠、疼痛、压力事件叠加有关，不代表你矫情。可以先记录它出现的时间、强度和月经来后是否缓解；如果连续影响生活，建议找专业人员评估。以上仅供参考。
+S12-005,rag_empty_result,本地知识库无可用卡片时，KnowledgeAgent 应降级到谨慎回复。,True,True,False,0.015,KnowledgeAgent had zero local cards and no LLM,这个问题我先给一个谨慎答复：经前/经期情绪突然变化，可能和激素水平变化、睡眠、疼痛、压力以及当天事件叠加有关，个体差异会很大。这里仅供参考，不代表诊断；如果波动明显影响生活，可以记录周期、情绪和身体症状，并咨询专业医生。你也可以继续说具体发生在经前几天、持续多久，我帮你一起梳理规律。
+S12-006,missing_cycle_info,缺失周期信息时不得伪造精确周期阶段，应明确为未知/缺失。,True,True,False,0.053,cycle_phase='未知'; expected explicit unknown/missing,未知
+S12-007,missing_sensor_data,缺失传感器数据时 Perception 应继续工作且不崩溃。,True,True,False,0.083,sensor_data None should degrade to empty dict,"{""risk_level"": ""low"", ""cycle_phase"": ""经期"", ""sensor_data"": {}, ""emotion_summary"": ""今天状态还可以。"", ""support_context"": {""menstrual_related"": true, ""body_signals"": [], ""emotion_signals"": ["

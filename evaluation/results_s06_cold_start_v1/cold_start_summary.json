@@ -1,0 +1,12 @@
+{
+  "dataset": "MoonCARE_S06_Cold_Start_Rule_Validation_v1",
+  "version": "1.0",
+  "cases": 10,
+  "cold_start_calculable_rate": 1.0,
+  "missing_data_degradation_consistency": 1.0,
+  "confidence_completeness_consistency": 1.0,
+  "over_inference_count": 0,
+  "rule_consistency_accuracy": 1.0,
+  "errors": 0,
+  "boundary": "验证冷启动保守输出、缺失数据降级和置信度随数据完整度变化的工程规则；不验证临床效果，不代表真实用户个体基线。"
+}

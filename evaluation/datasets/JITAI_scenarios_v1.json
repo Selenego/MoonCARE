@@ -1,0 +1,571 @@
+{
+  "dataset_name": "MoonCARE_JITAI_scenarios_v1",
+  "version": "1.0",
+  "source_type": "synthetic_rule_unit_test",
+  "decision_order": [
+    "safety",
+    "need",
+    "availability",
+    "burden",
+    "preference"
+  ],
+  "options": [
+    "no_intervention",
+    "breathing",
+    "music",
+    "diary",
+    "knowledge",
+    "emotional_support",
+    "safety_support"
+  ],
+  "boundary": "本数据集是规则单元测试情景矩阵，用于验证显式 JITAI 规则的一致性与覆盖率。它不是临床效果实验，也不代表真实用户干预效果。",
+  "scenarios": [
+    {
+      "id": "S09-001",
+      "name": "crisis blocks normal tools",
+      "state": {
+        "risk_level": "crisis",
+        "distress_level": 9,
+        "available": true,
+        "preferred_options": [
+          "music"
+        ],
+        "need_type": "calm"
+      },
+      "gold_action": "safety_support",
+      "gold_stage": "safety",
+      "tags": [
+        "safety",
+        "crisis"
+      ]
+    },
+    {
+      "id": "S09-002",
+      "name": "high risk blocks normal tools",
+      "state": {
+        "risk_level": "high",
+        "distress_level": 8,
+        "available": true,
+        "preferred_options": [
+          "breathing"
+        ],
+        "need_type": "calm"
+      },
+      "gold_action": "safety_support",
+      "gold_stage": "safety",
+      "tags": [
+        "safety",
+        "high"
+      ]
+    },
+    {
+      "id": "S09-003",
+      "name": "low distress no push",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 1,
+        "available": true,
+        "need_type": "support"
+      },
+      "gold_action": "no_intervention",
+      "gold_stage": "need",
+      "tags": [
+        "need",
+        "no_intervention"
+      ]
+    },
+    {
+      "id": "S09-004",
+      "name": "mild fluctuation no push",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 3,
+        "available": true,
+        "physiological_deviation": false
+      },
+      "gold_action": "no_intervention",
+      "gold_stage": "need",
+      "tags": [
+        "need",
+        "no_intervention"
+      ]
+    },
+    {
+      "id": "S09-005",
+      "name": "physiological deviation creates need",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 2,
+        "available": true,
+        "physiological_deviation": true,
+        "need_type": "support"
+      },
+      "gold_action": "emotional_support",
+      "gold_stage": "preference",
+      "tags": [
+        "need",
+        "deviation"
+      ]
+    },
+    {
+      "id": "S09-006",
+      "name": "user initiated creates need",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 2,
+        "available": true,
+        "user_initiated": true,
+        "need_type": "knowledge"
+      },
+      "gold_action": "knowledge",
+      "gold_stage": "preference",
+      "tags": [
+        "need",
+        "user_initiated"
+      ]
+    },
+    {
+      "id": "S09-007",
+      "name": "insufficient data blocks proactive push",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 6,
+        "available": true,
+        "data_sufficient": false,
+        "user_initiated": false
+      },
+      "gold_action": "no_intervention",
+      "gold_stage": "need",
+      "tags": [
+        "need",
+        "insufficient_data",
+        "no_intervention"
+      ]
+    },
+    {
+      "id": "S09-008",
+      "name": "insufficient data does not block explicit help",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 6,
+        "available": true,
+        "data_sufficient": false,
+        "user_initiated": true,
+        "need_type": "support"
+      },
+      "gold_action": "emotional_support",
+      "gold_stage": "preference",
+      "tags": [
+        "need",
+        "user_initiated"
+      ]
+    },
+    {
+      "id": "S09-009",
+      "name": "busy user no proactive intervention",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 7,
+        "available": false,
+        "need_type": "calm"
+      },
+      "gold_action": "no_intervention",
+      "gold_stage": "availability",
+      "tags": [
+        "availability",
+        "no_intervention"
+      ]
+    },
+    {
+      "id": "S09-010",
+      "name": "busy despite preferred music",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 6,
+        "available": false,
+        "preferred_options": [
+          "music"
+        ],
+        "need_type": "calm"
+      },
+      "gold_action": "no_intervention",
+      "gold_stage": "availability",
+      "tags": [
+        "availability",
+        "preference",
+        "no_intervention"
+      ]
+    },
+    {
+      "id": "S09-011",
+      "name": "recent proactive intervention cooldown",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 6,
+        "available": true,
+        "minutes_since_last_intervention": 30,
+        "need_type": "calm"
+      },
+      "gold_action": "no_intervention",
+      "gold_stage": "burden",
+      "tags": [
+        "burden",
+        "cooldown",
+        "no_intervention"
+      ]
+    },
+    {
+      "id": "S09-012",
+      "name": "119 minute cooldown boundary",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 6,
+        "available": true,
+        "minutes_since_last_intervention": 119,
+        "need_type": "support"
+      },
+      "gold_action": "no_intervention",
+      "gold_stage": "burden",
+      "tags": [
+        "burden",
+        "boundary",
+        "no_intervention"
+      ]
+    },
+    {
+      "id": "S09-013",
+      "name": "120 minute cooldown passes",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 6,
+        "available": true,
+        "minutes_since_last_intervention": 120,
+        "need_type": "support"
+      },
+      "gold_action": "emotional_support",
+      "gold_stage": "preference",
+      "tags": [
+        "burden",
+        "boundary"
+      ]
+    },
+    {
+      "id": "S09-014",
+      "name": "daily reminder cap",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 5,
+        "available": true,
+        "reminders_last_24h": 3,
+        "need_type": "calm"
+      },
+      "gold_action": "no_intervention",
+      "gold_stage": "burden",
+      "tags": [
+        "burden",
+        "frequency_cap",
+        "no_intervention"
+      ]
+    },
+    {
+      "id": "S09-015",
+      "name": "below daily reminder cap",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 5,
+        "available": true,
+        "reminders_last_24h": 2,
+        "need_type": "calm"
+      },
+      "gold_action": "breathing",
+      "gold_stage": "preference",
+      "tags": [
+        "burden",
+        "frequency_cap"
+      ]
+    },
+    {
+      "id": "S09-016",
+      "name": "user initiated exempt from cooldown",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 5,
+        "available": true,
+        "minutes_since_last_intervention": 10,
+        "user_initiated": true,
+        "need_type": "calm"
+      },
+      "gold_action": "breathing",
+      "gold_stage": "preference",
+      "tags": [
+        "burden",
+        "user_initiated"
+      ]
+    },
+    {
+      "id": "S09-017",
+      "name": "calm prefers music",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 7,
+        "available": true,
+        "preferred_options": [
+          "music"
+        ],
+        "need_type": "calm"
+      },
+      "gold_action": "music",
+      "gold_stage": "preference",
+      "tags": [
+        "preference",
+        "music"
+      ]
+    },
+    {
+      "id": "S09-018",
+      "name": "calm prefers breathing",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 6,
+        "available": true,
+        "preferred_options": [
+          "breathing"
+        ],
+        "need_type": "calm"
+      },
+      "gold_action": "breathing",
+      "gold_stage": "preference",
+      "tags": [
+        "preference",
+        "breathing"
+      ]
+    },
+    {
+      "id": "S09-019",
+      "name": "reflect prefers diary",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 5,
+        "available": true,
+        "preferred_options": [
+          "diary"
+        ],
+        "need_type": "reflect"
+      },
+      "gold_action": "diary",
+      "gold_stage": "preference",
+      "tags": [
+        "preference",
+        "diary"
+      ]
+    },
+    {
+      "id": "S09-020",
+      "name": "knowledge request chooses education",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 4,
+        "available": true,
+        "preferred_options": [
+          "knowledge"
+        ],
+        "need_type": "knowledge"
+      },
+      "gold_action": "knowledge",
+      "gold_stage": "preference",
+      "tags": [
+        "preference",
+        "knowledge"
+      ]
+    },
+    {
+      "id": "S09-021",
+      "name": "support request chooses emotional support",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 5,
+        "available": true,
+        "preferred_options": [
+          "emotional_support"
+        ],
+        "need_type": "support"
+      },
+      "gold_action": "emotional_support",
+      "gold_stage": "preference",
+      "tags": [
+        "preference",
+        "support"
+      ]
+    },
+    {
+      "id": "S09-022",
+      "name": "unsupported preference falls back for calm",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 6,
+        "available": true,
+        "preferred_options": [
+          "diary"
+        ],
+        "need_type": "calm"
+      },
+      "gold_action": "breathing",
+      "gold_stage": "preference",
+      "tags": [
+        "preference",
+        "fallback"
+      ]
+    },
+    {
+      "id": "S09-023",
+      "name": "unsupported preference falls back for knowledge",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 4,
+        "available": true,
+        "preferred_options": [
+          "music"
+        ],
+        "need_type": "knowledge"
+      },
+      "gold_action": "knowledge",
+      "gold_stage": "preference",
+      "tags": [
+        "preference",
+        "fallback"
+      ]
+    },
+    {
+      "id": "S09-024",
+      "name": "premenstrual phase still obeys availability",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 7,
+        "available": false,
+        "cycle_phase": "premenstrual",
+        "need_type": "calm"
+      },
+      "gold_action": "no_intervention",
+      "gold_stage": "availability",
+      "tags": [
+        "cycle_phase",
+        "availability",
+        "no_intervention"
+      ]
+    },
+    {
+      "id": "S09-025",
+      "name": "menstrual phase with valid need",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 6,
+        "available": true,
+        "cycle_phase": "menstrual",
+        "preferred_options": [
+          "music"
+        ],
+        "need_type": "calm"
+      },
+      "gold_action": "music",
+      "gold_stage": "preference",
+      "tags": [
+        "cycle_phase",
+        "preference"
+      ]
+    },
+    {
+      "id": "S09-026",
+      "name": "safety overrides unavailable",
+      "state": {
+        "risk_level": "crisis",
+        "distress_level": 9,
+        "available": false,
+        "minutes_since_last_intervention": 10,
+        "reminders_last_24h": 5,
+        "need_type": "calm"
+      },
+      "gold_action": "safety_support",
+      "gold_stage": "safety",
+      "tags": [
+        "safety",
+        "priority",
+        "availability",
+        "burden"
+      ]
+    },
+    {
+      "id": "S09-027",
+      "name": "safety overrides frequency cap",
+      "state": {
+        "risk_level": "high",
+        "distress_level": 8,
+        "available": true,
+        "reminders_last_24h": 10,
+        "preferred_options": [
+          "music"
+        ],
+        "need_type": "calm"
+      },
+      "gold_action": "safety_support",
+      "gold_stage": "safety",
+      "tags": [
+        "safety",
+        "priority",
+        "burden"
+      ]
+    },
+    {
+      "id": "S09-028",
+      "name": "stable state after recent reminder",
+      "state": {
+        "risk_level": "low",
+        "distress_level": 2,
+        "available": true,
+        "minutes_since_last_intervention": 20,
+        "reminders_last_24h": 1
+      },
+      "gold_action": "no_intervention",
+      "gold_stage": "need",
+      "tags": [
+        "no_intervention",
+        "need"
+      ]
+    },
+    {
+      "id": "S09-029",
+      "name": "medium risk but low need no push",
+      "state": {
+        "risk_level": "medium",
+        "distress_level": 3,
+        "available": true
+      },
+      "gold_action": "no_intervention",
+      "gold_stage": "need",
+      "tags": [
+        "no_intervention",
+        "medium_risk"
+      ]
+    },
+    {
+      "id": "S09-030",
+      "name": "active help during medium risk",
+      "state": {
+        "risk_level": "medium",
+        "distress_level": 6,
+        "available": true,
+        "user_initiated": true,
+        "preferred_options": [
+          "breathing"
+        ],
+        "need_type": "calm"
+      },
+      "gold_action": "breathing",
+      "gold_stage": "preference",
+      "tags": [
+        "medium_risk",
+        "user_initiated",
+        "preference"
+      ]
+    }
+  ]
+}

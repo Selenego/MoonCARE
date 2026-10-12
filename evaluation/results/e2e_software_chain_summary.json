@@ -1,0 +1,11 @@
+{
+  "dataset": "MoonCARE_S11_Software_Chain_E2E_v1",
+  "version": "1.0",
+  "n_cases": 5,
+  "software_chain_success_rate": 1.0,
+  "route_accuracy": 1.0,
+  "risk_accuracy": 1.0,
+  "average_total_latency_ms": 0.981,
+  "error_count": 0,
+  "scope_boundary": "仅验证软件内部 Perception -> Safety/Router -> Specialist response -> AgentService action suggestion 的可重复链路；不包含真实硬件输入、数据库写回、真实工具执行、用户完成/拒绝后的生产状态回流。"
+}

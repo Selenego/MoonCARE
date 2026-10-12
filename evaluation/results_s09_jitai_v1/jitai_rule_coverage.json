@@ -1,0 +1,49 @@
+{
+  "required_rule_order": [
+    "safety",
+    "need",
+    "availability",
+    "burden",
+    "preference"
+  ],
+  "covered_stages": [
+    "availability",
+    "burden",
+    "need",
+    "preference",
+    "safety"
+  ],
+  "stage_counts": {
+    "safety": 4,
+    "need": 5,
+    "preference": 15,
+    "availability": 3,
+    "burden": 3
+  },
+  "coverage_rate": 1.0,
+  "scenario_tags": [
+    "availability",
+    "boundary",
+    "breathing",
+    "burden",
+    "cooldown",
+    "crisis",
+    "cycle_phase",
+    "deviation",
+    "diary",
+    "fallback",
+    "frequency_cap",
+    "high",
+    "insufficient_data",
+    "knowledge",
+    "medium_risk",
+    "music",
+    "need",
+    "no_intervention",
+    "preference",
+    "priority",
+    "safety",
+    "support",
+    "user_initiated"
+  ]
+}

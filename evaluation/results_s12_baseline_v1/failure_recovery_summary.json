@@ -1,0 +1,11 @@
+{
+  "dataset": "MoonCARE_S12_Failure_Recovery_v1",
+  "version": "1.0",
+  "n_cases": 7,
+  "fault_detection_rate": 1.0,
+  "recovery_success_rate": 0.7142857142857143,
+  "average_local_recovery_ms": 0.038,
+  "fake_success_count": 0,
+  "failure_count": 2,
+  "boundary": "该实验验证软件层降级和失败恢复逻辑，不代表真实 BLE、数据库或生产网络故障恢复。"
+}

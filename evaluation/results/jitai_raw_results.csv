@@ -1,0 +1,31 @@
+﻿id,name,gold_action,pred_action,gold_stage,pred_stage,reason,correct,tags,trace
+S09-001,crisis blocks normal tools,safety_support,safety_support,safety,safety,high_or_crisis_risk,True,safety|crisis,safety:block_normal_path:risk=crisis
+S09-002,high risk blocks normal tools,safety_support,safety_support,safety,safety,high_or_crisis_risk,True,safety|high,safety:block_normal_path:risk=high
+S09-003,low distress no push,no_intervention,no_intervention,need,need,low_need,True,need|no_intervention,safety:pass > need:no_meaningful_need
+S09-004,mild fluctuation no push,no_intervention,no_intervention,need,need,low_need,True,need|no_intervention,safety:pass > need:no_meaningful_need
+S09-005,physiological deviation creates need,emotional_support,emotional_support,preference,preference,default_for_need_type,True,need|deviation,safety:pass > need:pass > availability:pass > burden:pass > preference:default:emotional_support
+S09-006,user initiated creates need,knowledge,knowledge,preference,preference,default_for_need_type,True,need|user_initiated,safety:pass > need:pass > availability:pass > burden:pass > preference:default:knowledge
+S09-007,insufficient data blocks proactive push,no_intervention,no_intervention,need,need,insufficient_data,True,need|insufficient_data|no_intervention,safety:pass > need:insufficient_data_for_proactive_intervention
+S09-008,insufficient data does not block explicit help,emotional_support,emotional_support,preference,preference,default_for_need_type,True,need|user_initiated,safety:pass > need:pass > availability:pass > burden:pass > preference:default:emotional_support
+S09-009,busy user no proactive intervention,no_intervention,no_intervention,availability,availability,user_unavailable,True,availability|no_intervention,safety:pass > need:pass > availability:user_unavailable
+S09-010,busy despite preferred music,no_intervention,no_intervention,availability,availability,user_unavailable,True,availability|preference|no_intervention,safety:pass > need:pass > availability:user_unavailable
+S09-011,recent proactive intervention cooldown,no_intervention,no_intervention,burden,burden,recent_intervention,True,burden|cooldown|no_intervention,safety:pass > need:pass > availability:pass > burden:cooldown_active
+S09-012,119 minute cooldown boundary,no_intervention,no_intervention,burden,burden,recent_intervention,True,burden|boundary|no_intervention,safety:pass > need:pass > availability:pass > burden:cooldown_active
+S09-013,120 minute cooldown passes,emotional_support,emotional_support,preference,preference,default_for_need_type,True,burden|boundary,safety:pass > need:pass > availability:pass > burden:pass > preference:default:emotional_support
+S09-014,daily reminder cap,no_intervention,no_intervention,burden,burden,frequency_cap,True,burden|frequency_cap|no_intervention,safety:pass > need:pass > availability:pass > burden:daily_frequency_cap
+S09-015,below daily reminder cap,breathing,breathing,preference,preference,default_for_need_type,True,burden|frequency_cap,safety:pass > need:pass > availability:pass > burden:pass > preference:default:breathing
+S09-016,user initiated exempt from cooldown,breathing,breathing,preference,preference,default_for_need_type,True,burden|user_initiated,safety:pass > need:pass > availability:pass > burden:pass > preference:default:breathing
+S09-017,calm prefers music,music,music,preference,preference,preferred_option,True,preference|music,safety:pass > need:pass > availability:pass > burden:pass > preference:selected:music
+S09-018,calm prefers breathing,breathing,breathing,preference,preference,preferred_option,True,preference|breathing,safety:pass > need:pass > availability:pass > burden:pass > preference:selected:breathing
+S09-019,reflect prefers diary,diary,diary,preference,preference,preferred_option,True,preference|diary,safety:pass > need:pass > availability:pass > burden:pass > preference:selected:diary
+S09-020,knowledge request chooses education,knowledge,knowledge,preference,preference,preferred_option,True,preference|knowledge,safety:pass > need:pass > availability:pass > burden:pass > preference:selected:knowledge
+S09-021,support request chooses emotional support,emotional_support,emotional_support,preference,preference,preferred_option,True,preference|support,safety:pass > need:pass > availability:pass > burden:pass > preference:selected:emotional_support
+S09-022,unsupported preference falls back for calm,breathing,breathing,preference,preference,default_for_need_type,True,preference|fallback,safety:pass > need:pass > availability:pass > burden:pass > preference:default:breathing
+S09-023,unsupported preference falls back for knowledge,knowledge,knowledge,preference,preference,default_for_need_type,True,preference|fallback,safety:pass > need:pass > availability:pass > burden:pass > preference:default:knowledge
+S09-024,premenstrual phase still obeys availability,no_intervention,no_intervention,availability,availability,user_unavailable,True,cycle_phase|availability|no_intervention,safety:pass > need:pass > availability:user_unavailable
+S09-025,menstrual phase with valid need,music,music,preference,preference,preferred_option,True,cycle_phase|preference,safety:pass > need:pass > availability:pass > burden:pass > preference:selected:music
+S09-026,safety overrides unavailable,safety_support,safety_support,safety,safety,high_or_crisis_risk,True,safety|priority|availability|burden,safety:block_normal_path:risk=crisis
+S09-027,safety overrides frequency cap,safety_support,safety_support,safety,safety,high_or_crisis_risk,True,safety|priority|burden,safety:block_normal_path:risk=high
+S09-028,stable state after recent reminder,no_intervention,no_intervention,need,need,low_need,True,no_intervention|need,safety:pass > need:no_meaningful_need
+S09-029,medium risk but low need no push,no_intervention,no_intervention,need,need,low_need,True,no_intervention|medium_risk,safety:pass > need:no_meaningful_need
+S09-030,active help during medium risk,breathing,breathing,preference,preference,preferred_option,True,medium_risk|user_initiated|preference,safety:pass > need:pass > availability:pass > burden:pass > preference:selected:breathing

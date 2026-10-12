@@ -1,0 +1,128 @@
+{
+  "dataset_name": "MoonCARE_S06_Cold_Start_Rule_Validation_v1",
+  "version": "1.0",
+  "source_type": "synthetic_rule_unit_test",
+  "boundary": "验证冷启动保守输出、缺失数据降级和置信度随数据完整度变化的工程规则；不验证临床效果，不代表真实用户个体基线。",
+  "cases": [
+    {
+      "id": "S06-001",
+      "name": "complete_low_distress_stable_physiology",
+      "input": {
+        "ema_distress": 1,
+        "physiological_deviation": false,
+        "cycle_phase": "经期",
+        "history_count": 0
+      },
+      "gold_label": "reference_stable",
+      "expect_degraded": false
+    },
+    {
+      "id": "S06-002",
+      "name": "complete_high_ema_stable_physiology",
+      "input": {
+        "ema_distress": 5,
+        "physiological_deviation": false,
+        "cycle_phase": "经前期",
+        "history_count": 0
+      },
+      "gold_label": "elevated_distress",
+      "expect_degraded": false
+    },
+    {
+      "id": "S06-003",
+      "name": "complete_low_ema_physiological_deviation",
+      "input": {
+        "ema_distress": 1,
+        "physiological_deviation": true,
+        "cycle_phase": "经期",
+        "history_count": 0
+      },
+      "gold_label": "physiological_deviation",
+      "expect_degraded": false
+    },
+    {
+      "id": "S06-004",
+      "name": "missing_physiology_high_ema",
+      "input": {
+        "ema_distress": 4,
+        "physiological_deviation": null,
+        "cycle_phase": "经前期",
+        "history_count": 0
+      },
+      "gold_label": "elevated_distress",
+      "expect_degraded": false
+    },
+    {
+      "id": "S06-005",
+      "name": "missing_ema_physiological_deviation",
+      "input": {
+        "ema_distress": null,
+        "physiological_deviation": true,
+        "cycle_phase": "经期",
+        "history_count": 0
+      },
+      "gold_label": "physiological_deviation",
+      "expect_degraded": false
+    },
+    {
+      "id": "S06-006",
+      "name": "cycle_only",
+      "input": {
+        "ema_distress": null,
+        "physiological_deviation": null,
+        "cycle_phase": "经前期",
+        "history_count": 0
+      },
+      "gold_label": "uncertain",
+      "expect_degraded": true
+    },
+    {
+      "id": "S06-007",
+      "name": "no_current_data",
+      "input": {
+        "ema_distress": null,
+        "physiological_deviation": null,
+        "cycle_phase": null,
+        "history_count": 0
+      },
+      "gold_label": "uncertain",
+      "expect_degraded": true
+    },
+    {
+      "id": "S06-008",
+      "name": "missing_cycle_low_ema_stable_physiology",
+      "input": {
+        "ema_distress": 2,
+        "physiological_deviation": false,
+        "cycle_phase": null,
+        "history_count": 0
+      },
+      "gold_label": "reference_stable",
+      "expect_degraded": false
+    },
+    {
+      "id": "S06-009",
+      "name": "one_signal_ema_only",
+      "input": {
+        "ema_distress": 3,
+        "physiological_deviation": null,
+        "cycle_phase": null,
+        "history_count": 0
+      },
+      "gold_label": "uncertain",
+      "expect_degraded": true
+    },
+    {
+      "id": "S06-010",
+      "name": "short_history_still_not_personal_baseline",
+      "input": {
+        "ema_distress": 2,
+        "physiological_deviation": false,
+        "cycle_phase": "卵泡期",
+        "history_count": 2
+      },
+      "gold_label": "reference_stable",
+      "expect_degraded": false
+    }
+  ]
+}

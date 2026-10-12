@@ -1,0 +1,42 @@
+[
+  {
+    "id": "S11-002",
+    "name": "support_path",
+    "gold_route": "support",
+    "pred_route": "support",
+    "raw_route": "support",
+    "gold_risk": "low",
+    "pred_risk": "medium",
+    "route_ok": true,
+    "risk_ok": false,
+    "reply_ok": true,
+    "action_count": 3,
+    "action_ok": true,
+    "success": false,
+    "perception_ms": 0.034,
+    "route_ms": 0.03,
+    "action_ms": 0.045,
+    "total_ms": 0.111,
+    "path_note": "Perception -> Router -> Support"
+  },
+  {
+    "id": "S11-003",
+    "name": "action_support_path",
+    "gold_route": "action_support",
+    "pred_route": "action_support",
+    "raw_route": "action_support",
+    "gold_risk": "low",
+    "pred_risk": "medium",
+    "route_ok": true,
+    "risk_ok": false,
+    "reply_ok": true,
+    "action_count": 3,
+    "action_ok": true,
+    "success": false,
+    "perception_ms": 0.028,
+    "route_ms": 0.007,
+    "action_ms": 0.022,
+    "total_ms": 0.059,
+    "path_note": "Perception -> Router(action_support) -> action suggestions"
+  }
+]

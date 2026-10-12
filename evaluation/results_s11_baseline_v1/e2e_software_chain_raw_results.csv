@@ -1,0 +1,6 @@
+﻿id,name,gold_route,pred_route,raw_route,gold_risk,pred_risk,route_ok,risk_ok,reply_ok,action_count,action_ok,success,perception_ms,route_ms,action_ms,total_ms,path_note
+S11-001,knowledge_rag_path,knowledge,knowledge,knowledge,low,low,True,True,True,0,True,True,0.442,3.263,0.004,3.715,Perception -> Router -> KnowledgeAgent(local card fallback)
+S11-002,support_path,support,support,support,low,medium,True,False,True,3,True,False,0.034,0.03,0.045,0.111,Perception -> Router -> Support
+S11-003,action_support_path,action_support,action_support,action_support,low,medium,True,False,True,3,True,False,0.028,0.007,0.022,0.059,Perception -> Router(action_support) -> action suggestions
+S11-004,safety_intervention_path,intervention,intervention,intervention,crisis,high,True,True,True,0,True,True,0.024,0.003,0.001,0.03,Perception -> Safety priority -> Intervention
+S11-005,negative_feedback_path,support,support,light_comfort,low,low,True,True,True,3,True,True,0.026,0.003,0.025,0.055,Perception -> Router negative feedback -> light comfort

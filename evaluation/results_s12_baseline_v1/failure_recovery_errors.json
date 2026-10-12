@@ -1,0 +1,24 @@
+[
+  {
+    "id": "S12-002",
+    "fault": "llm_timeout_action_request",
+    "description": "明确求助场景下模拟模型超时，系统应返回可执行的本地降级建议。",
+    "detected": true,
+    "recovered": false,
+    "fake_success": false,
+    "elapsed_ms": 0.034,
+    "detail": "used action-request degraded reply",
+    "output_preview": "我在，也听到你现在烦躁。像有一团小火苗堵在胸口，碰哪都不对劲。如果你想多说一点，我就听着；不想说的话，我们就这么安静待一会儿。"
+  },
+  {
+    "id": "S12-006",
+    "fault": "missing_cycle_info",
+    "description": "缺失周期信息时不得伪造精确周期阶段，应明确为未知/缺失。",
+    "detected": true,
+    "recovered": false,
+    "fake_success": false,
+    "elapsed_ms": 0.051,
+    "detail": "cycle_phase='经前期'; expected explicit unknown/missing",
+    "output_preview": "经前期"
+  }
+]

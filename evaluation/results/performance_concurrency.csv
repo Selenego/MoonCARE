@@ -1,0 +1,4 @@
+﻿workers,tasks,success,failed,error_rate,wall_time_s,throughput_tasks_per_s,p50_task_ms,p95_task_ms
+1,100,100,0,0.0,0.239,418.06,0.098,3.802
+5,100,100,0,0.0,0.198,504.81,0.113,4.829
+10,100,100,0,0.0,0.205,487.81,0.108,4.464
